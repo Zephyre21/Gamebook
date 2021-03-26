@@ -22,12 +22,12 @@ show_options()
 #Inventory option selection
 print("Do you want the player to have an inventory option?")
 a = str(input(""))
-if == b:
+if a == b:
     inventory = []
     selected_options += ["inventory"]
     print("You have selected the inventory option")
     break
-if == c:
+if a == c:
     print("You have not selected the inventory option")
     break
 
