@@ -1,3 +1,11 @@
+def valid_number():
+    while True:
+        try:
+            temp = int(input())
+            return temp
+        except ValueError:
+            print("Please enter a valid number")
+
 #Greeting user
 print("Welcome to our [Gamebook maker]. Thanks to this software, you are going to be able to create you very own Gamebook\n")
 
@@ -17,32 +25,38 @@ n = "No"
 
 #Health option selection
 print("Do you want the player to have health points?\n")
-a = str(input(""))
-if a == y:
-    health = 0
-    selected_options += ["health"]
-    print("You have selected the health option")
-if a == n:
-    print("You have not selected the health option")
-
+a = 0
+while a != y and a!= n:
+    print("Please answer with Yes or No")
+    a = str(input(""))
+    if a == y:
+        health = 0
+        selected_options += ["health"]
+        print("You have selected the health option")
+    if a == n:
+        print("You have not selected the health option")
+    
 show_options()
 
 #Inventory option selection
 print("Do you want the player to have an inventory option?\n")
-a = str(input(""))
-if a == y:
-    inventory = []
-    selected_options += ["inventory"]
-    print("You have selected the inventory option")
-if a == n:
-    print("You have not selected the inventory option")
-
+a = 0
+while a != y and a != n:
+    print("Please answer with Yes or No")
+    a = str(input(""))
+    if a == y:
+        inventory = []
+        selected_options += ["inventory"]
+        print("You have selected the inventory option")
+    if a == n:
+        print("You have not selected the inventory option")
+    
 show_options()
 
 #Defining the health
 if "health" in selected_options:
     print("How much health does the player start with?\n")
-    health = int(input())
+    health = valid_number()
 
 #Death message
 if "health" in selected_options:
@@ -54,29 +68,30 @@ print("\n\nGreat, now that you have selected all your options, you are going to 
 print("This is how it is going to work: you must have prepared your story and separated it in multiple paragraphs, as well as prepared the choices the player can make, to which paragraph each choice redirects the player, and what influence it has on the health and inventory of the player\n")
 
 print("How many paragraphs are there?")
-nb_parag = int(input())
+nb_parag = valid_number()
 all_txt = list(range(nb_parag))
 all_choice_txt = list(range(nb_parag))
 all_rdrct = list(range(nb_parag))
 all_choice_hp = list(range(nb_parag))
-y ="yes"
-n = "no"
+all_inv = list(range(nb_parag))
+all_inv_rem = list(range(nb_parag))
 
 for i in range(0, nb_parag):
     print("What is the number of the paragraph you are now doing?")
-    pos_parag = int(input())
+    pos_parag = valid_number()
     print("Now enter the text of you paragraph")
     txt_parag = str(input())
     del(all_txt[pos_parag-1])
     all_txt.insert(pos_parag-1, txt_parag)
     #Now doing the choices
     print("How many choices does the player have now?")
-    nb_choice = int(input())
+    nb_choice = valid_number()
     #Reseting the temporary lists
     choice_lst = list(range(nb_choice))
     rdrct = list(range(nb_choice))
     choice_hp = list(range(nb_choice))
     choice_inv = list(range(nb_choice))
+    choice_inv_rem = list(range(nb_choice))
     for i in range(0, nb_choice):
         print("Enter the text of the choice", i+1)
         txt_choice = str(input())
@@ -85,53 +100,56 @@ for i in range(0, nb_parag):
         choice_lst.insert(i, txt_choice)
         #Choices actions
         print("What paragraph does this choice redirect to?")
-        temp_rdrct = int(input())
+        temp_rdrct = valid_number()
         del(rdrct[i])
         rdrct.insert(i, txt_choice)
         if "health" in selected_options:
             print("How much health does the player gain from this choice? If he doesn't lose health, type 0, if he loses health, type a negative number")
-            temp_hp = int(input())
-            del(all_choice_hp[i])
-            all_choice_hp.insert(i, txt_choice)
+            temp_hp = valid_number()
+            del(choice_hp[i])
+            choice_hp.insert(i, temp_hp)
         if "inventory" in selected_options:
-            print("Does the player get an item from this choice")
+            print("Does the player get an item from this choice?")
             yn_item_add = 0
             while yn_item_add != y and yn_item_add != n:
-                yn_item = str(input)
-                if yn_item == y:
-                    print("How many items doest the plauyer get?")
-                    nb_item = int(input)
+                print("Please answer with Yes or No")
+                yn_item_add = str(input())
+                if yn_item_add == y:
+                    print("How many items doest the player get?")
+                    nb_item = valid_number()
                     for i in range(0, nb_item):
                         print("What is the name of the item the player gets?")
-                        name_item = str(input)
-                        inv.append(name_item)
-                if yn_item == n:
+                        name_item = str(input())
+                        del(choice_inv[i])
+                        choice_inv.insert(i, name_item)
+                if yn_item_add == n:
                     break
             print("Does this choice remove an item from the player's inventory?")
             yn_item_remove = 0
             while yn_item_remove != y and yn_item_remove != n:
-                yn_item_remove = str(input)
+                print("Please answer with Yes or No")
+                yn_item_remove = str(input())
                 if yn_item_remove == y:
                     print("How many items are removed from the player's inventory?")
-                    nb_of_item_removed = int(input)
+                    nb_of_item_removed = valid_number()
                     for i in range(0, nb_of_item_removed):
                         print("What is the position of the item you want to remove?")
                         print(inventory)
-                        item_to_remove = int(input)
-                        del(inventory[item_to_remove])              
+                        item_to_remove = valid_number()
+                        del(inventory[item_to_remove-1])
+            del(all_choice_hp[i])
+            all_choice_hp.insert(i, temp_hp)     
+        del(all_rdrct[i])
+        all_rdrct.insert(i, temp_rdrct)        
     #Putting the temporary list in the permament list
     del(all_choice_txt[pos_parag-1])
     all_choice_txt.insert(pos_parag-1, choice_lst)
+
+with open("Gamebook.txt", "a") as f:
+    f.writelines(i for i in all_txt)
 
 print(all_txt)
 print(all_choice_txt)
 print(inventory)
 print(all_rdrct)
 print(all_choice_hp)
-
-
-
-
-
-
-
