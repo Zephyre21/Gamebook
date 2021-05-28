@@ -91,10 +91,10 @@ for i in range(0, nb_parag):
     rdrct = list(range(nb_choice))
     choice_hp = list(range(nb_choice))
     choice_inv = list(range(nb_choice))
-    choice_inv_rem = list(range(nb_choice))
+    choice_inv_rem = list(range(nb_choice))    
     for i in range(0, nb_choice):
         print("Enter the text of the choice", i+1)
-        txt_choice = str(input())
+        txt_choice = str(inpuce))
         #Putting the choice in a temporary list that will reset each paragraph
         del(choice_lst[i])
         choice_lst.insert(i, txt_choice)
@@ -102,7 +102,7 @@ for i in range(0, nb_parag):
         print("What paragraph does this choice redirect to?")
         temp_rdrct = valid_number()
         del(rdrct[i])
-        rdrct.insert(i, txt_choice)
+        rdrct.insert(i, temp_rdrct)
         if "health" in selected_options:
             print("How much health does the player gain from this choice? If he doesn't lose health, type 0, if he loses health, type a negative number")
             temp_hp = valid_number()
@@ -115,14 +115,14 @@ for i in range(0, nb_parag):
                 print("Please answer with Yes or No")
                 yn_item_add = str(input())
                 if yn_item_add == y:
-                    print("How many items doest the player get?")
-                    nb_item = valid_number()
-                    for i in range(0, nb_item):
-                        print("What is the name of the item the player gets?")
-                        name_item = str(input())
-                        del(choice_inv[i])
-                        choice_inv.insert(i, name_item)
+                    print("What is the name of the item the player gets?")
+                    name_item = str(input())
+                    del(choice_inv[i])
+                    choice_inv.insert(i, name_item)
                 if yn_item_add == n:
+                    name_item = "none"
+                    del(choice_inv[i])
+                    choice_inv.insert(i, name_item)
                     break
             print("Does this choice remove an item from the player's inventory?")
             yn_item_remove = 0
@@ -130,17 +130,22 @@ for i in range(0, nb_parag):
                 print("Please answer with Yes or No")
                 yn_item_remove = str(input())
                 if yn_item_remove == y:
-                    print("How many items are removed from the player's inventory?")
-                    nb_of_item_removed = valid_number()
-                    for i in range(0, nb_of_item_removed):
-                        print("What is the position of the item you want to remove?")
-                        print(inventory)
-                        item_to_remove = valid_number()
-                        del(inventory[item_to_remove-1])
+                    print("What is the name of the item you want to remove?")
+                    item_rem = str(input())
+                    del(choice_inv_rem[i])
+                    choice_inv_rem.insert(i, name_item)
+                if yn_item_remove == n:
+                    item_rem = "none"
+                    del(choice_inv_rem[i])
+                    choice_inv_rem.insert(i, name_item)
+            del(all_inv[i])
+            all_inv.insert(i, choice_inv)
+            del(all_inv_rem[i])
+            all_inv_rem.insert(i, choice_inv_rem)   
             del(all_choice_hp[i])
             all_choice_hp.insert(i, temp_hp)     
         del(all_rdrct[i])
-        all_rdrct.insert(i, temp_rdrct)        
+        all_rdrct.insert(i, rdrct)        
     #Putting the temporary list in the permament list
     del(all_choice_txt[pos_parag-1])
     all_choice_txt.insert(pos_parag-1, choice_lst)
@@ -152,4 +157,6 @@ print(all_txt)
 print(all_choice_txt)
 print(inventory)
 print(all_rdrct)
-print(all_choice_hp)
+print(all_choice_hp
+print(all_inv)
+print(all_inv_rem)
