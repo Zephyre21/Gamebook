@@ -1,0 +1,39 @@
+def valid_number():
+    while True:
+        try:
+            temp = int(input())
+            return temp
+        except ValueError:
+            print("Please enter a valid number")
+
+#Greeting user
+print("Welcome to our [Gamebook maker]. Thanks to this software, you are going to be able to create you very own Gamebook\n")
+
+#Title
+print("Let's start by first giving you Gamebook a title\n")
+title = str(input())
+
+#Health option selection
+selected_options = []
+print("Do you want the player to have health points?\n")
+a = 0
+while a != y and a!= n:
+    print("Please answer with Yes or No")
+    a = str(input(""))
+    if a == y:
+        health = 0
+        selected_options += ["health"]
+        print("You have selected the health option")
+    if a == n:
+        print("You have not selected the health option")
+
+
+#Defining the health
+if "health" in selected_options:
+    print("How much health does the player start with?\n")
+    health = valid_number()
+
+#Death message
+if "health" in selected_options:
+    print("Please enter the death message (when the player hits 0 hp)\n")
+    death_msg = str(input())
